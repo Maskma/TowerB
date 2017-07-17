@@ -21,29 +21,32 @@ public class GameManager : MonoBehaviour {
 	private int lastDirect = 1;
 
 	private float timeDelta = 0.0f;
-	private int level;
 
-	/// <summary>
-	/// Canvas var
-	/// </summary>
-	public GameObject resultImage;
+	private int scores;
+	private int levels;
+
+	// Text
+	public GameObject canvas;
 	public Text resultText;
+	public Text scoreText;
+	public Text levelText;
 
 	private bool isGameEnd = false;
 
 	void Start() {
+		scores = 0;
+		levels = 0;
 		setup();
 	}
 
 	void setup()
 	{
-		resultImage.SetActive(false);
+		canvas.SetActive(false);
 
 		matrixController.newMatrix(row, col, new Vector3(0,0,0));
 		rect = new Rectangle(new Vector2(0,0), 3);
 		isGameEnd = false;
 		lastDirect = RIGHT;
-		level = 0;
 		
 		speed = speedStart;
 		timePerMove = 1f / speed;
@@ -89,20 +92,30 @@ public class GameManager : MonoBehaviour {
 				speed += speedIncPerLevel;
 				timePerMove = 1f / speed;
 
-				if (rect.length > 0) 
-					level ++;
+				if (rect.length > 0) {
+					levels++;
+					scores += rect.length + levels;
+				}
+
 			}
+
+			scoreText.text = "Score: " + scores;
+			levelText.text = "Level: " + levels;
 			
-			if (!(rect.length > 0) || (level >= row)) {
+			if (!(rect.length > 0) || (levels >= row)) {
 
-				if (level >= row) 
-					resultText.text = "You Won!\n<press R to restart>";
-				else 
+				if (levels >= row) {
+					resultText.text = "You Won!\n<press R to continue>";
+					setup ();
+				}
+				else {
+					scores = 0;
 					resultText.text = "You Lose!\n<press R to restart>";
-	
-				isGameEnd = true;
-				resultImage.SetActive(true);
+					canvas.SetActive(true);
+					isGameEnd = true;
+				}
 
+				levels = 0;
 			}
 
 			AutoMove();
@@ -111,7 +124,7 @@ public class GameManager : MonoBehaviour {
 			if (Input.GetKeyDown(KeyCode.R)) 
 				setup ();
 		}
-
+			
 		ReTurnOnSquares();
 	}
 
