@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour {
 
 	void ContinueLevel()
 	{
-		matrixController.ScrollDown(8, rect);
+		matrixController.ScrollDown(row - 8, rect);
 	}
 
 	void ReTurnOnSquares() 
