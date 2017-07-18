@@ -34,13 +34,13 @@ public class GameManager : MonoBehaviour {
 	private bool isGameEnd = false;
 
 	void Start() {
-		scores = 0;
-		levels = 0;
 		setup();
 	}
 
-	void setup()
+	public void setup()
 	{
+		levels = 0;
+		scores = 0;
 		canvas.SetActive(false);
 
 		matrixController.newMatrix(row, col, new Vector3(0,0,0));
@@ -50,6 +50,11 @@ public class GameManager : MonoBehaviour {
 		
 		speed = speedStart;
 		timePerMove = 1f / speed;
+	}
+
+	void ContinueLevel()
+	{
+		matrixController.ScrollDown(8, rect);
 	}
 
 	void ReTurnOnSquares() 
@@ -63,6 +68,8 @@ public class GameManager : MonoBehaviour {
 			{
 				if (matrixController.matrix[x, y].squareStatus)
 					matrixController.matrix[x, y].TurnOn(true);
+				else
+					matrixController.matrix[x, y].TurnOn(false);
 			}
 		}
 
@@ -102,20 +109,15 @@ public class GameManager : MonoBehaviour {
 			scoreText.text = "Score: " + scores;
 			levelText.text = "Level: " + levels;
 			
-			if (!(rect.length > 0) || (levels >= row)) {
+			if (!(rect.length > 0) || (rect.startPosition.y >= row)) {
 
-				if (levels >= row) {
-					resultText.text = "You Won!\n<press R to continue>";
-					setup ();
+				if (rect.startPosition.y >= row) {
+					ContinueLevel ();
 				}
 				else {
-					scores = 0;
-					resultText.text = "You Lose!\n<press R to restart>";
 					canvas.SetActive(true);
 					isGameEnd = true;
 				}
-
-				levels = 0;
 			}
 
 			AutoMove();
@@ -125,7 +127,7 @@ public class GameManager : MonoBehaviour {
 				setup ();
 		}
 			
-		ReTurnOnSquares();
+		ReTurnOnSquares ();
 	}
 
 	void TurnOffAll()

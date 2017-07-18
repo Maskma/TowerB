@@ -34,4 +34,15 @@ public class Square : MonoBehaviour
 		else 
 			this.spriteRenderer.sprite = this.squareStatusSprite.blank;
 	}
+
+	public void Copy(bool obj)
+	{
+		squareStatus = obj;
+	}
+
+	public void Clear()
+	{
+		this.TurnOn(false);
+		this.squareStatus = false;
+	}
 }

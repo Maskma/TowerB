@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "Tower 2.0.data.unityweb",
+"asmCodeUrl": "Tower 2.0.asm.code.unityweb",
+"asmMemoryUrl": "Tower 2.0.asm.memory.unityweb",
+"asmFrameworkUrl": "Tower 2.0.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#222C36"
+}
